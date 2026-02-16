@@ -1,0 +1,275 @@
+/* --- VARIAVEIS E RESET --- */
+:root {
+    --bg-dark: #121214;
+    --bg-sidebar: #202024;
+    --bg-card: #29292e;
+    --text-primary: #e1e1e6;
+    --text-secondary: #a8a8b3;
+    --accent: #8257e6; /* Roxo moderno */
+    --green-field: linear-gradient(180deg, #184e2d 0%, #0e3b20 100%);
+    --white: #ffffff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    height: 100vh;
+    display: flex;
+    overflow: hidden; /* Evita rolagem na tela principal */
+}
+
+/* --- LAYOUT PRINCIPAL --- */
+main {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+/* --- ÁREA DO CAMPO (ESQUERDA) --- */
+.field-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at center, #1e1e1e 0%, #121212 100%);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* O Campo em si */
+.pitch {
+    width: 100%;
+    max-width: 600px;
+    /* Mantém a proporção oficial de um campo de futebol (aprox 2:3) */
+    aspect-ratio: 2/3; 
+    background: var(--green-field);
+    border: 4px solid rgba(255,255,255,0.8);
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+/* Linhas do Campo (Decoração) */
+.pitch-line { position: absolute; background: rgba(255,255,255,0.4); }
+
+.line-mid { 
+    top: 50%; left: 0; width: 100%; height: 2px; 
+    transform: translateY(-50%);
+}
+
+.circle-mid { 
+    top: 50%; left: 50%; 
+    width: 20%; padding-top: 20%; /* Cria um círculo perfeito baseado na largura */
+    border: 2px solid rgba(255,255,255,0.4); 
+    border-radius: 50%; 
+    transform: translate(-50%, -50%); 
+    background: transparent;
+}
+
+.area { 
+    width: 60%; height: 16%; 
+    border: 2px solid rgba(255,255,255,0.4); 
+    left: 20%; 
+}
+.area-top { top: 0; border-top: none; }
+.area-bottom { bottom: 0; border-bottom: none; }
+
+/* --- SLOTS (BOLINHAS DOS JOGADORES) --- */
+.slot {
+    width: 55px; height: 55px;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    transition: transform 0.1s;
+    /* Touch Action none é importante para arrastar no celular sem rolar a tela */
+    touch-action: none; 
+}
+
+/* Estado Vazio (+) */
+.slot-empty {
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.3);
+    border: 2px dashed rgba(255,255,255,0.3);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 1.5rem; cursor: pointer;
+    transition: 0.2s;
+}
+.slot-empty:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: var(--white);
+    transform: scale(1.1);
+}
+
+/* Jogador Preenchido */
+.player-token {
+    width: 60px; height: 60px; /* Um pouco maior que o slot vazio */
+    background: var(--bg-card);
+    border-radius: 50%;
+    border: 2px solid var(--white);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    cursor: grab;
+    overflow: hidden;
+}
+
+.player-token:active { cursor: grabbing; }
+
+.player-token img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+}
+
+.player-label {
+    position: absolute; bottom: 0; width: 100%;
+    background: rgba(0,0,0,0.85);
+    font-size: 0.6rem; text-align: center; color: white;
+    padding: 2px 0; font-weight: 600;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.player-badge {
+    position: absolute; top: -2px; right: -2px;
+    width: 22px; height: 22px;
+    background: #fff; border-radius: 50%;
+    border: 1px solid #000;
+    z-index: 2; display: flex; align-items: center; justify-content: center;
+}
+.player-badge img { width: 16px; height: 16px; object-fit: contain; }
+
+/* --- BARRA LATERAL (DIREITA) --- */
+aside {
+    width: 350px;
+    background: var(--bg-sidebar);
+    border-left: 1px solid #333;
+    display: flex; flex-direction: column;
+    padding: 2rem;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+    z-index: 20;
+}
+
+.header-logo h1 { font-size: 1.5rem; font-weight: 700; color: var(--white); margin-top: 10px; }
+.header-logo p { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 2rem; }
+
+.control-group { margin-bottom: 2rem; }
+.control-group label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-secondary); }
+
+select {
+    width: 100%; padding: 12px;
+    background: var(--bg-card); border: 1px solid #333;
+    color: var(--white); border-radius: 6px;
+    font-size: 1rem; cursor: pointer; outline: none;
+}
+select:focus { border-color: var(--accent); }
+
+.action-btn {
+    width: 100%; padding: 14px; margin-bottom: 10px;
+    border: none; border-radius: 6px;
+    font-weight: 600; cursor: pointer; transition: 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    font-size: 0.9rem;
+}
+
+.btn-save { background: var(--accent); color: white; }
+.btn-save:hover { background: #6f48c9; }
+
+.btn-clear { background: transparent; border: 1px solid #c0392b; color: #e74c3c; }
+.btn-clear:hover { background: rgba(192, 57, 43, 0.1); }
+
+.tips {
+    margin-top: auto; padding: 15px;
+    background: rgba(255,255,255,0.05); border-radius: 8px;
+}
+.tips p { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 5px; }
+.credits { margin-top: 20px; text-align: center; font-size: 0.7rem; color: #555; }
+
+/* --- MODAL (LISTA DE JOGADORES) --- */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(5px); /* Efeito de vidro borrado */
+    z-index: 2000;
+    display: none; align-items: center; justify-content: center;
+}
+.modal-overlay.active { display: flex; }
+
+.modal {
+    background: var(--bg-sidebar);
+    width: 90%; max-width: 450px;
+    height: 80vh; /* Altura fixa */
+    border-radius: 12px;
+    border: 1px solid #444;
+    display: flex; flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+    padding: 1.5rem; border-bottom: 1px solid #333;
+    display: flex; justify-content: space-between; align-items: center;
+}
+.close-modal {
+    background: none; border: none; color: var(--text-secondary); cursor: pointer;
+}
+.close-modal:hover { color: var(--white); }
+
+.modal-list {
+    padding: 1rem; overflow-y: auto; flex: 1;
+}
+
+/* Card do Jogador na Lista */
+.player-option {
+    display: flex; align-items: center; gap: 15px;
+    padding: 12px; margin-bottom: 8px;
+    background: var(--bg-card); border-radius: 8px;
+    cursor: pointer; transition: all 0.2s; border: 1px solid transparent;
+}
+.player-option:hover {
+    border-color: var(--accent); background: #323238; transform: translateX(5px);
+}
+.player-option img {
+    width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid #444;
+}
+.mini-badge {
+    position: absolute; bottom: -2px; right: -2px; width: 18px !important; height: 18px !important;
+    border-radius: 50%; border: 1px solid #000; background: #fff;
+}
+.opt-name { display: block; font-weight: 700; color: var(--text-primary); }
+.opt-team { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* --- RESPONSIVIDADE (CELULAR) --- */
+@media (max-width: 768px) {
+    main { flex-direction: column; }
+    
+    .field-wrapper { 
+        padding: 10px;
+        align-items: flex-start; /* Joga o campo mais pra cima */
+        padding-top: 20px;
+    }
+    
+    .pitch { max-width: 100%; aspect-ratio: 2/3; margin: 0 auto; }
+    
+    aside {
+        width: 100%;
+        height: auto;
+        border-left: none; border-top: 1px solid #333;
+        flex-direction: row; flex-wrap: wrap;
+        padding: 1rem;
+        gap: 1rem;
+        align-items: center; justify-content: space-between;
+    }
+    
+    .header-logo, .tips, .credits { display: none; } /* Esconde itens menos importantes no mobile */
+    
+    .control-group { margin-bottom: 0; flex: 1; }
+    .btn-save span, .btn-clear span { font-size: 1.2rem; } /* Ícones maiores */
+}
