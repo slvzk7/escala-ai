@@ -40,16 +40,50 @@ main {
 }
 
 /* O Campo em si */
+/* --- CAMPO (CORREÇÃO DE PROPORÇÃO) --- */
 .pitch {
-    width: 100%;
-    max-width: 600px;
-    /* Mantém a proporção oficial de um campo de futebol (aprox 2:3) */
-    aspect-ratio: 2/3; 
+    /* No Desktop, a altura manda. Isso impede que estique. */
+    height: 90vh; 
+    width: auto;
+    aspect-ratio: 2/3; /* Proporção fixa: não importa o tamanho, mantém o formato */
+    
     background: var(--green-field);
     border: 4px solid rgba(255,255,255,0.8);
     border-radius: 8px;
     position: relative;
     box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    margin: 0 auto; /* Centraliza */
+}
+
+/* --- RESPONSIVIDADE (CELULAR) --- */
+@media (max-width: 768px) {
+    main { flex-direction: column; overflow-y: auto; } /* Permite rolar no mobile */
+    
+    .field-wrapper { 
+        padding: 10px;
+        height: auto;
+        overflow: visible;
+        margin-bottom: 20px;
+    }
+    
+    .pitch { 
+        /* No celular, a largura manda */
+        width: 100%; 
+        height: auto; 
+        max-height: none;
+    }
+    
+    aside {
+        width: 100%;
+        height: auto;
+        border-left: none; border-top: 1px solid #333;
+        flex-direction: row; flex-wrap: wrap;
+        padding: 1rem;
+        gap: 1rem;
+    }
+    
+    .header-logo, .tips, .credits { display: none; }
+    .control-group { margin-bottom: 0; flex: 1; min-width: 150px; }
 }
 
 /* Linhas do Campo (Decoração) */
