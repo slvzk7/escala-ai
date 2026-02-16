@@ -5,7 +5,7 @@
     --bg-card: #29292e;
     --text-primary: #e1e1e6;
     --text-secondary: #a8a8b3;
-    --accent: #8257e6; /* Roxo moderno */
+    --accent: #8257e6;
     --green-field: linear-gradient(180deg, #184e2d 0%, #0e3b20 100%);
     --white: #ffffff;
 }
@@ -17,7 +17,7 @@ body {
     color: var(--text-primary);
     height: 100vh;
     display: flex;
-    overflow: hidden; /* Evita rolagem na tela principal */
+    overflow: hidden; 
 }
 
 /* --- LAYOUT PRINCIPAL --- */
@@ -36,57 +36,24 @@ main {
     background: radial-gradient(circle at center, #1e1e1e 0%, #121212 100%);
     padding: 20px;
     position: relative;
-    overflow: hidden;
 }
 
-/* O Campo em si */
-/* --- CAMPO (CORREÇÃO DE PROPORÇÃO) --- */
+/* O Campo em si - CORRIGIDO PARA NÃO ESTICAR */
 .pitch {
-    /* No Desktop, a altura manda. Isso impede que estique. */
+    /* Altura baseada na tela para caber sem rolar */
     height: 90vh; 
     width: auto;
-    aspect-ratio: 2/3; /* Proporção fixa: não importa o tamanho, mantém o formato */
+    /* Proporção exata de campo de futebol (2 largura por 3 altura) */
+    aspect-ratio: 2/3; 
     
     background: var(--green-field);
     border: 4px solid rgba(255,255,255,0.8);
     border-radius: 8px;
     position: relative;
     box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-    margin: 0 auto; /* Centraliza */
 }
 
-/* --- RESPONSIVIDADE (CELULAR) --- */
-@media (max-width: 768px) {
-    main { flex-direction: column; overflow-y: auto; } /* Permite rolar no mobile */
-    
-    .field-wrapper { 
-        padding: 10px;
-        height: auto;
-        overflow: visible;
-        margin-bottom: 20px;
-    }
-    
-    .pitch { 
-        /* No celular, a largura manda */
-        width: 100%; 
-        height: auto; 
-        max-height: none;
-    }
-    
-    aside {
-        width: 100%;
-        height: auto;
-        border-left: none; border-top: 1px solid #333;
-        flex-direction: row; flex-wrap: wrap;
-        padding: 1rem;
-        gap: 1rem;
-    }
-    
-    .header-logo, .tips, .credits { display: none; }
-    .control-group { margin-bottom: 0; flex: 1; min-width: 150px; }
-}
-
-/* Linhas do Campo (Decoração) */
+/* Linhas do Campo */
 .pitch-line { position: absolute; background: rgba(255,255,255,0.4); }
 
 .line-mid { 
@@ -96,7 +63,7 @@ main {
 
 .circle-mid { 
     top: 50%; left: 50%; 
-    width: 20%; padding-top: 20%; /* Cria um círculo perfeito baseado na largura */
+    width: 20%; padding-top: 20%;
     border: 2px solid rgba(255,255,255,0.4); 
     border-radius: 50%; 
     transform: translate(-50%, -50%); 
@@ -111,18 +78,16 @@ main {
 .area-top { top: 0; border-top: none; }
 .area-bottom { bottom: 0; border-bottom: none; }
 
-/* --- SLOTS (BOLINHAS DOS JOGADORES) --- */
+/* --- SLOTS (BOLINHAS) --- */
 .slot {
-    width: 55px; height: 55px;
+    width: 14%; /* Tamanho relativo ao campo */
+    aspect-ratio: 1/1; /* Mantém quadrado/redondo */
     position: absolute;
     transform: translate(-50%, -50%);
     z-index: 10;
-    transition: transform 0.1s;
-    /* Touch Action none é importante para arrastar no celular sem rolar a tela */
     touch-action: none; 
 }
 
-/* Estado Vazio (+) */
 .slot-empty {
     width: 100%; height: 100%;
     background: rgba(0,0,0,0.3);
@@ -133,14 +98,12 @@ main {
     transition: 0.2s;
 }
 .slot-empty:hover {
-    background: rgba(255,255,255,0.1);
-    border-color: var(--white);
-    transform: scale(1.1);
+    background: rgba(255,255,255,0.1); border-color: var(--white); transform: scale(1.1);
 }
 
 /* Jogador Preenchido */
 .player-token {
-    width: 60px; height: 60px; /* Um pouco maior que o slot vazio */
+    width: 110%; height: 110%; /* Um pouco maior que o slot */
     background: var(--bg-card);
     border-radius: 50%;
     border: 2px solid var(--white);
@@ -154,8 +117,7 @@ main {
 .player-token:active { cursor: grabbing; }
 
 .player-token img {
-    width: 100%; height: 100%;
-    object-fit: cover;
+    width: 100%; height: 100%; object-fit: cover;
 }
 
 .player-label {
@@ -167,15 +129,15 @@ main {
 }
 
 .player-badge {
-    position: absolute; top: -2px; right: -2px;
-    width: 22px; height: 22px;
+    position: absolute; top: 0; right: 0;
+    width: 30%; height: 30%;
     background: #fff; border-radius: 50%;
     border: 1px solid #000;
     z-index: 2; display: flex; align-items: center; justify-content: center;
 }
-.player-badge img { width: 16px; height: 16px; object-fit: contain; }
+.player-badge img { width: 80%; height: 80%; object-fit: contain; }
 
-/* --- BARRA LATERAL (DIREITA) --- */
+/* --- BARRA LATERAL --- */
 aside {
     width: 350px;
     background: var(--bg-sidebar);
@@ -198,7 +160,6 @@ select {
     color: var(--white); border-radius: 6px;
     font-size: 1rem; cursor: pointer; outline: none;
 }
-select:focus { border-color: var(--accent); }
 
 .action-btn {
     width: 100%; padding: 14px; margin-bottom: 10px;
@@ -210,9 +171,7 @@ select:focus { border-color: var(--accent); }
 
 .btn-save { background: var(--accent); color: white; }
 .btn-save:hover { background: #6f48c9; }
-
 .btn-clear { background: transparent; border: 1px solid #c0392b; color: #e74c3c; }
-.btn-clear:hover { background: rgba(192, 57, 43, 0.1); }
 
 .tips {
     margin-top: auto; padding: 15px;
@@ -221,89 +180,52 @@ select:focus { border-color: var(--accent); }
 .tips p { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 5px; }
 .credits { margin-top: 20px; text-align: center; font-size: 0.7rem; color: #555; }
 
-/* --- MODAL (LISTA DE JOGADORES) --- */
+/* --- MODAL --- */
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8);
-    backdrop-filter: blur(5px); /* Efeito de vidro borrado */
-    z-index: 2000;
-    display: none; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
+    z-index: 2000; display: none; align-items: center; justify-content: center;
 }
 .modal-overlay.active { display: flex; }
 
 .modal {
-    background: var(--bg-sidebar);
-    width: 90%; max-width: 450px;
-    height: 80vh; /* Altura fixa */
-    border-radius: 12px;
-    border: 1px solid #444;
+    background: var(--bg-sidebar); width: 90%; max-width: 450px;
+    height: 80vh; border-radius: 12px; border: 1px solid #444;
     display: flex; flex-direction: column;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-    animation: slideUp 0.3s ease-out;
 }
+.modal-header { padding: 1.5rem; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
+.close-modal { background: none; border: none; color: var(--text-secondary); cursor: pointer; }
+.modal-list { padding: 1rem; overflow-y: auto; flex: 1; }
 
-@keyframes slideUp {
-    from { transform: translateY(50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-
-.modal-header {
-    padding: 1.5rem; border-bottom: 1px solid #333;
-    display: flex; justify-content: space-between; align-items: center;
-}
-.close-modal {
-    background: none; border: none; color: var(--text-secondary); cursor: pointer;
-}
-.close-modal:hover { color: var(--white); }
-
-.modal-list {
-    padding: 1rem; overflow-y: auto; flex: 1;
-}
-
-/* Card do Jogador na Lista */
 .player-option {
     display: flex; align-items: center; gap: 15px;
     padding: 12px; margin-bottom: 8px;
     background: var(--bg-card); border-radius: 8px;
-    cursor: pointer; transition: all 0.2s; border: 1px solid transparent;
+    cursor: pointer; transition: all 0.2s;
 }
-.player-option:hover {
-    border-color: var(--accent); background: #323238; transform: translateX(5px);
-}
-.player-option img {
-    width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid #444;
-}
-.mini-badge {
-    position: absolute; bottom: -2px; right: -2px; width: 18px !important; height: 18px !important;
-    border-radius: 50%; border: 1px solid #000; background: #fff;
-}
+.player-option:hover { border: 1px solid var(--accent); background: #323238; }
+.player-option img { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; }
 .opt-name { display: block; font-weight: 700; color: var(--text-primary); }
-.opt-team { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+.opt-team { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; }
 
 /* --- RESPONSIVIDADE (CELULAR) --- */
 @media (max-width: 768px) {
-    main { flex-direction: column; }
+    main { flex-direction: column; overflow-y: auto; }
     
     .field-wrapper { 
-        padding: 10px;
-        align-items: flex-start; /* Joga o campo mais pra cima */
-        padding-top: 20px;
+        padding: 10px; height: auto; display: block;
     }
     
-    .pitch { max-width: 100%; aspect-ratio: 2/3; margin: 0 auto; }
+    .pitch { 
+        width: 100%; height: auto; aspect-ratio: 2/3; margin: 0 auto;
+    }
     
     aside {
-        width: 100%;
-        height: auto;
+        width: 100%; height: auto;
         border-left: none; border-top: 1px solid #333;
-        flex-direction: row; flex-wrap: wrap;
         padding: 1rem;
-        gap: 1rem;
-        align-items: center; justify-content: space-between;
     }
     
-    .header-logo, .tips, .credits { display: none; } /* Esconde itens menos importantes no mobile */
-    
-    .control-group { margin-bottom: 0; flex: 1; }
-    .btn-save span, .btn-clear span { font-size: 1.2rem; } /* Ícones maiores */
+    .header-logo, .tips, .credits { display: none; }
+    .control-group { margin-bottom: 1rem; }
 }
