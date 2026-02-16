@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Escala Dream Team | Multiclubes</title>
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+    <main>
+        <section class="field-wrapper">
+            <div class="pitch" id="pitch">
+                <div class="pitch-line line-mid"></div>
+                <div class="pitch-line circle-mid"></div>
+                <div class="pitch-line area area-top"></div>
+                <div class="pitch-line area area-bottom"></div>
+                
+                </div>
+        </section>
+
+        <aside>
+            <div class="header-logo">
+                <span class="material-icons" style="font-size: 2rem; color: #8257e6;">sports_soccer</span>
+                <h1>Dream Team</h1>
+                <p>Monte sua seleção ideal</p>
+            </div>
+
+            <div class="controls">
+                <div class="control-group">
+                    <label>Esquema Tático</label>
+                    <select id="formationSelect">
+                        <option value="4-3-3">4-3-3 (Ofensivo)</option>
+                        <option value="4-4-2">4-4-2 (Clássico)</option>
+                        <option value="3-5-2">3-5-2 (Moderno)</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <button class="action-btn btn-save" onclick="saveTeam()">
+                        <span class="material-icons">share</span> Salvar / Compartilhar
+                    </button>
+                    
+                    <button class="action-btn btn-clear" onclick="resetField()">
+                        <span class="material-icons">delete_outline</span> Limpar Campo
+                    </button>
+                </div>
+
+                <div class="tips">
+                    <p><span class="material-icons">touch_app</span> <strong>Clique</strong> no + para adicionar.</p>
+                    <p><span class="material-icons">drag_indicator</span> <strong>Arraste</strong> para ajustar a posição.</p>
+                </div>
+            </div>
+
+            <footer class="credits">
+                Palmeiras • Corinthians • São Paulo • Flamengo
+            </footer>
+        </aside>
+    </main>
+
+    <div class="modal-overlay" id="playerModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modalTitle">Escolher Jogador</h3>
+                <button class="close-modal" onclick="closeModal()">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            
+            <div class="modal-list" id="modalList"></div>
+        </div>
+    </div>
+
+    <script src="dados.js"></script>
+    
+    <script src="script.js"></script>
+
+</body>
+</html>
